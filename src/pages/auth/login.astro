@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AuthForm from '../../components/AuthForm.svelte';
+
+
+---
+
+<Layout title="Sign In - ReadHere">
+  <main>
+    <div class="auth-container">
+      <AuthForm
+        client:load
+        mode="login"
+        onSubmit={async (email, password) => {
+          console.log('Login attempt:', email);
+          window.location.href = '/';
+        }}
+      />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .auth-container {
+    width: 100%;
+    max-width: 400px;
+  }
+</style>
