@@ -1,17 +1,154 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Map from '../components/Map.svelte';
+import VenueCard from '../components/VenueCard.svelte';
 
+
+
+const mockVenues = [
+  {
+    id: '1',
+    name: 'Central Library',
+    address: '476 5th Ave, New York, NY 10018',
+    latitude: 40.7532,
+    longitude: -73.9832,
+    description: 'Historic library with quiet reading rooms',
+    category: 'library',
+    created_at: '2024-01-01T00:00:00Z',
+  },
+  {
+    id: '2',
+    name: 'Cozy Coffee House',
+    address: '123 Main St, New York, NY 10001',
+    latitude: 40.7489,
+    longitude: -73.9680,
+    description: 'Comfortable cafe with excellent natural lighting',
+    category: 'cafe',
+    created_at: '2024-01-02T00:00:00Z',
+  },
+  {
+    id: '3',
+    name: 'Quiet Corner Bookstore',
+    address: '789 Broadway, New York, NY 10003',
+    latitude: 40.7314,
+    longitude: -73.9911,
+    description: 'Independent bookstore with reading nooks',
+    category: 'bookstore',
+    created_at: '2024-01-03T00:00:00Z',
+  },
+];
+
+const mockAverageRatings = [4.2, 4.5, 3.8];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="ReadHere - Find Your Perfect Reading Spot">
+  <main>
+    <header class="header">
+      <div class="container">
+        <h1>ReadHere</h1>
+        <p class="tagline">Discover the perfect places to read</p>
+        <nav>
+          <a href="/auth/login">Sign In</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="map-section">
+      <div class="container">
+        <Map client:load venues={mockVenues} />
+      </div>
+    </section>
+
+    <section class="venues-section">
+      <div class="container">
+        <h2>Featured Venues</h2>
+        <div class="venues-grid">
+          {mockVenues.map((venue, index) => (
+            <a href={`/venues/${venue.id}`} class="venue-link">
+              <VenueCard
+                client:load
+                venue={venue}
+                averageRating={mockAverageRatings[index]}
+              />
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  main {
+    min-height: 100vh;
+    background: #f9fafb;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    padding: 48px 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 3rem;
+    font-weight: 700;
+  }
+
+  .tagline {
+    margin: 0 0 24px 0;
+    font-size: 1.25rem;
+    opacity: 0.9;
+  }
+
+  nav {
+    display: flex;
+    gap: 16px;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 2px solid white;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  nav a:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .map-section {
+    padding: 48px 0;
+  }
+
+  .venues-section {
+    padding: 48px 0;
+  }
+
+  .venues-section h2 {
+    margin: 0 0 32px 0;
+    font-size: 2rem;
+    color: #1f2937;
+  }
+
+  .venues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .venue-link {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>
