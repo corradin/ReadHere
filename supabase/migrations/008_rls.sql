@@ -1,0 +1,3 @@
+-- Row Level Security policies can go here
+-- Example: allow users to insert reviews only for themselves
+-- enable row level security on tables when ready
