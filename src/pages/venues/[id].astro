@@ -1,0 +1,357 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Map from '../../components/Map.svelte';
+import ReviewForm from '../../components/ReviewForm.svelte';
+import { formatDate } from '../../lib/utils';
+
+export function getStaticPaths() {
+  return [
+    { params: { id: '1' } },
+    { params: { id: '2' } },
+    { params: { id: '3' } },
+  ];
+}
+
+const { id } = Astro.params;
+
+const mockVenues: Record<string, any> = {
+  '1': {
+    id: '1',
+    name: 'Central Library',
+    address: '476 5th Ave, New York, NY 10018',
+    latitude: 40.7532,
+    longitude: -73.9832,
+    description: 'Historic library with quiet reading rooms, comfortable seating, and excellent natural lighting throughout the day.',
+    category: 'library',
+    created_at: '2024-01-01T00:00:00Z',
+  },
+  '2': {
+    id: '2',
+    name: 'Cozy Coffee House',
+    address: '123 Main St, New York, NY 10001',
+    latitude: 40.7489,
+    longitude: -73.9680,
+    description: 'Comfortable cafe with excellent natural lighting and cozy seating.',
+    category: 'cafe',
+    created_at: '2024-01-02T00:00:00Z',
+  },
+  '3': {
+    id: '3',
+    name: 'Quiet Corner Bookstore',
+    address: '789 Broadway, New York, NY 10003',
+    latitude: 40.7314,
+    longitude: -73.9911,
+    description: 'Independent bookstore with reading nooks and a peaceful atmosphere.',
+    category: 'bookstore',
+    created_at: '2024-01-03T00:00:00Z',
+  },
+};
+
+const mockVenue = mockVenues[id!] || mockVenues['1'];
+
+const mockReviews = [
+  {
+    id: '1',
+    venue_id: id || '1',
+    user_id: 'user1',
+    quietness: 5,
+    comfort: 4,
+    lighting: 5,
+    text: 'Perfect place for focused reading. The reading rooms are incredibly quiet and the natural light is amazing.',
+    created_at: '2024-01-15T10:30:00Z',
+  },
+  {
+    id: '2',
+    venue_id: id || '1',
+    user_id: 'user2',
+    quietness: 4,
+    comfort: 4,
+    lighting: 4,
+    text: 'Great spot overall. Sometimes gets a bit crowded on weekends but still maintains a good atmosphere.',
+    created_at: '2024-01-10T14:20:00Z',
+  },
+];
+
+const averageRatings = {
+  quietness: 4.5,
+  comfort: 4.0,
+  lighting: 4.5,
+  overall: 4.3,
+};
+
+const isLoggedIn = false;
+---
+
+<Layout title={`${mockVenue.name} - ReadHere`}>
+  <main>
+    <header class="header">
+      <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+      </div>
+    </header>
+
+    <div class="venue-detail">
+      <div class="container">
+        <div class="venue-header">
+          <h1>{mockVenue.name}</h1>
+          <p class="address">{mockVenue.address}</p>
+          {mockVenue.category && (
+            <span class="category">{mockVenue.category}</span>
+          )}
+        </div>
+
+        <div class="ratings-summary">
+          <div class="rating-item">
+            <span class="rating-label">Overall</span>
+            <span class="rating-value">{averageRatings.overall}/5</span>
+          </div>
+          <div class="rating-item">
+            <span class="rating-label">Quietness</span>
+            <span class="rating-value">{averageRatings.quietness}/5</span>
+          </div>
+          <div class="rating-item">
+            <span class="rating-label">Comfort</span>
+            <span class="rating-value">{averageRatings.comfort}/5</span>
+          </div>
+          <div class="rating-item">
+            <span class="rating-label">Lighting</span>
+            <span class="rating-value">{averageRatings.lighting}/5</span>
+          </div>
+        </div>
+
+        {mockVenue.description && (
+          <div class="description">
+            <p>{mockVenue.description}</p>
+          </div>
+        )}
+
+        <div class="map-container">
+          <Map
+            client:load
+            venues={[mockVenue]}
+            center={[mockVenue.longitude, mockVenue.latitude]}
+            zoom={15}
+          />
+        </div>
+
+        <div class="reviews-section">
+          <h2>Reviews ({mockReviews.length})</h2>
+          
+          <div class="reviews-list">
+            {mockReviews.map((review) => (
+              <div class="review-card">
+                <div class="review-ratings">
+                  <span>Quietness: {review.quietness}/5</span>
+                  <span>Comfort: {review.comfort}/5</span>
+                  <span>Lighting: {review.lighting}/5</span>
+                </div>
+                <p class="review-text">{review.text}</p>
+                <p class="review-date">{formatDate(review.created_at)}</p>
+              </div>
+            ))}
+          </div>
+
+          {isLoggedIn ? (
+            <div class="review-form-container">
+              <ReviewForm
+                client:load
+                venueId={mockVenue.id}
+                userId="current-user-id"
+                onSubmit={async (review) => {
+                  console.log('Review submitted:', review);
+                  alert('Review submitted successfully!');
+                }}
+              />
+            </div>
+          ) : (
+            <div class="login-prompt">
+              <p>Please <a href="/auth/login">sign in</a> to leave a review.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    min-height: 100vh;
+    background: #f9fafb;
+  }
+
+  .header {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .back-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  .venue-detail {
+    padding: 48px 0;
+  }
+
+  .venue-header {
+    margin-bottom: 32px;
+  }
+
+  .venue-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 2.5rem;
+    color: #1f2937;
+  }
+
+  .address {
+    margin: 0 0 12px 0;
+    color: #6b7280;
+    font-size: 1.125rem;
+  }
+
+  .category {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    text-transform: capitalize;
+  }
+
+  .ratings-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .rating-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .rating-label {
+    display: block;
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+  }
+
+  .rating-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3b82f6;
+  }
+
+  .description {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 32px;
+  }
+
+  .description p {
+    margin: 0;
+    color: #374151;
+    line-height: 1.6;
+  }
+
+  .map-container {
+    margin-bottom: 48px;
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .reviews-section {
+    margin-top: 48px;
+  }
+
+  .reviews-section h2 {
+    margin: 0 0 24px 0;
+    font-size: 1.875rem;
+    color: #1f2937;
+  }
+
+  .reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .review-card {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .review-ratings {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .review-text {
+    margin: 0 0 12px 0;
+    color: #374151;
+    line-height: 1.6;
+  }
+
+  .review-date {
+    margin: 0;
+    color: #9ca3af;
+    font-size: 0.875rem;
+  }
+
+  .review-form-container {
+    margin-top: 32px;
+  }
+
+  .login-prompt {
+    background: white;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .login-prompt p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 1.125rem;
+  }
+
+  .login-prompt a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .login-prompt a:hover {
+    text-decoration: underline;
+  }
+</style>
