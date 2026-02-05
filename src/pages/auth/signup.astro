@@ -11,10 +11,6 @@ import AuthForm from '../../components/AuthForm.svelte';
       <AuthForm
         client:load
         mode="signup"
-        onSubmit={async (email, password) => {
-          console.log('Signup attempt:', email);
-          window.location.href = '/';
-        }}
       />
     </div>
   </main>

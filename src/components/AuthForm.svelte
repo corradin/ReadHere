@@ -3,17 +3,16 @@
 
   interface Props {
     mode: 'login' | 'signup';
-    onSubmit: (email: string, password: string) => Promise<void>;
   }
 
-  let { mode, onSubmit }: Props = $props();
+  let { mode }: Props = $props();
 
   let email = $state('');
   let password = $state('');
   let isSubmitting = $state(false);
   let error = $state('');
 
-  async function handleSubmit(e: Event) {
+  async function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
     error = '';
 
@@ -30,7 +29,9 @@
     isSubmitting = true;
 
     try {
-      await onSubmit(email, password);
+      //TODO: Make auth call to supabase
+      console.log('Signup attempt:', email);
+      // window.location.href = '/';
     } catch (err) {
       error = err instanceof Error ? err.message : 'Authentication failed';
     } finally {
@@ -42,7 +43,7 @@
   const submitText = $derived(mode === 'login' ? 'Sign In' : 'Create Account');
 </script>
 
-<form class="auth-form" on:submit={handleSubmit}>
+<form class="auth-form" onsubmit={handleSubmit}>
   <h2>{title}</h2>
 
   <div class="form-group">
@@ -73,7 +74,7 @@
     <p class="error">{error}</p>
   {/if}
 
-  <button type="submit" class="submit-button" disabled={isSubmitting}>
+  <button class="submit-button" disabled={isSubmitting}>
     {isSubmitting ? 'Please wait...' : submitText}
   </button>
 
