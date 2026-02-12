@@ -14,9 +14,9 @@
     "@astrojs/svelte": "^7.2.5",
     "@supabase/supabase-js": "^2.93.3",
     "@vitest/ui": "^4.0.18",
-    "astro": "^5.17.0",
+    "astro": "^5.17.2",
     "mapbox-gl": "^3.18.1",
-    "svelte": "^5.49.0",
+    "svelte": "^5.50.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   },
