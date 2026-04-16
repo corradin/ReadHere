@@ -13,7 +13,7 @@
   "dependencies": {
     "@astrojs/svelte": "^7.2.5",
     "@supabase/supabase-js": "^2.93.3",
-    "@vitest/ui": "^4.0.18",
+    "@vitest/ui": "^4.1.4",
     "astro": "^6.1.7",
     "mapbox-gl": "^3.21.0",
     "svelte": "^5.55.4",
