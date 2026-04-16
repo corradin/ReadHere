@@ -1,33 +1,38 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import AuthForm from '../../components/AuthForm.svelte';
+import Layout from "../../layouts/Layout.astro";
+import AuthForm from "../../components/AuthForm.svelte";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "astro:env/server";
 
+// const supabaseUrl = import.meta.env.SUPABASE_URL;
+// const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY;
+const supabaseUrl = SUPABASE_URL;
+const supabaseAnonKey = SUPABASE_ANON_KEY;
 
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("Missing Supabase environment variables");
+}
 ---
 
 <Layout title="Sign Up - ReadHere">
-  <main>
-    <div class="auth-container">
-      <AuthForm
-        client:load
-        mode="signup"
-      />
-    </div>
-  </main>
+    <main>
+        <div class="auth-container">
+            <AuthForm client:load mode="signup" />
+        </div>
+    </main>
 </Layout>
 
 <style>
-  main {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
+    main {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+    }
 
-  .auth-container {
-    width: 100%;
-    max-width: 400px;
-  }
+    .auth-container {
+        width: 100%;
+        max-width: 400px;
+    }
 </style>
