@@ -13,28 +13,24 @@ export const DEFAULT_MAP_CONFIG = {
   style: {
     version: 8,
     sources: {
-      osm: {
+      "raster-tiles": {
         type: "raster",
-        tiles: [
-          "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        ],
+        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
         tileSize: 256,
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        minzoom: 0,
+        maxzoom: 19,
+        attribution: "© OpenStreetMap contributors",
       },
     },
     layers: [
       {
-        id: "osm",
+        id: "simple-tiles",
         type: "raster",
-        source: "osm",
-        minzoom: 0,
-        maxzoom: 19,
+        source: "raster-tiles",
       },
     ],
+    id: "blank",
   },
-  center: [-74.006, 40.7128] as [number, number],
-  zoom: 12,
+  center: [4.8988, 52.3674] as [number, number],
+  zoom: 10,
 };

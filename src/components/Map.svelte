@@ -79,6 +79,7 @@
             venues.forEach((venue) => {
                 bounds.extend([venue.longitude, venue.latitude]);
             });
+            console.log(bounds);
             map?.fitBounds(bounds, { padding: 50 });
         }
     }
