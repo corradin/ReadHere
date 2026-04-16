@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Configure commit messages
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    # Set reviewers (replace with your GitHub usernames)
+    reviewers:
+      - "corradin"
+    # Set assignees (replace with your GitHub usernames)
+    assignees:
+      - "corradin"
