@@ -16,7 +16,7 @@ ReadHere solves a simple problem: finding the perfect spot to read. Whether you'
 - **[Astro](https://astro.build/)** - Modern static site generator with hybrid rendering
 - **[Svelte 5](https://svelte.dev/)** - Reactive UI components with runes
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe development
-- **[Mapbox GL JS](https://www.mapbox.com/mapbox-gljs)** - Interactive maps and geolocation
+- **[MapLibre GL JS](https://maplibre.org/)** - Interactive maps and geolocation (free, no API key required)
 
 ### Backend & Services
 - **[Supabase](https://supabase.com/)** - PostgreSQL database with PostGIS, authentication, and storage
@@ -37,7 +37,6 @@ ReadHere solves a simple problem: finding the perfect spot to read. Whether you'
 
 - Node.js 18+ and npm
 - A [Supabase](https://supabase.com/) account and project
-- A [Mapbox](https://www.mapbox.com/) account and access token
 
 ### Installation
 
@@ -63,12 +62,10 @@ ReadHere solves a simple problem: finding the perfect spot to read. Whether you'
    ```env
    PUBLIC_SUPABASE_URL=your_supabase_project_url
    PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token
    ```
 
    **Where to find these:**
    - **Supabase credentials**: Project Settings → API in your [Supabase dashboard](https://supabase.com/dashboard)
-   - **Mapbox token**: [Access Tokens page](https://account.mapbox.com/access-tokens/)
 
 4. **Set up the database** (optional for development)
    
@@ -168,7 +165,7 @@ readhere/
 │   ├── lib/                 # Shared utilities
 │   │   ├── api.ts          # Supabase data fetching
 │   │   ├── auth.ts         # Authentication helpers
-│   │   ├── mapbox.ts       # Mapbox configuration
+│   │   ├── mapbox.ts       # MapLibre configuration
 │   │   ├── supabase.ts     # Supabase client setup
 │   │   ├── types.ts        # TypeScript type definitions
 │   │   └── utils.ts        # Helper functions
@@ -208,7 +205,6 @@ ReadHere is optimized for deployment on Vercel:
    Add the following environment variables in Vercel project settings:
    - `PUBLIC_SUPABASE_URL`
    - `PUBLIC_SUPABASE_ANON_KEY`
-   - `PUBLIC_MAPBOX_ACCESS_TOKEN`
 
 4. **Deploy**
    ```bash
@@ -228,7 +224,6 @@ The project uses Astro's **hybrid rendering** mode:
 |----------|----------|-------------|
 | `PUBLIC_SUPABASE_URL` | Yes | Your Supabase project URL |
 | `PUBLIC_SUPABASE_ANON_KEY` | Yes | Your Supabase anonymous key |
-| `PUBLIC_MAPBOX_ACCESS_TOKEN` | Yes | Your Mapbox access token |
 
 > **Note:** All variables are prefixed with `PUBLIC_` because they're used in client-side code. They're safe to expose in the browser but should still be kept private.
 
@@ -236,7 +231,7 @@ The project uses Astro's **hybrid rendering** mode:
 
 ### Current Implementation (Starter)
 
-- ✅ Interactive map with venue markers (Mapbox GL JS)
+- ✅ Interactive map with venue markers (MapLibre GL JS)
 - ✅ Venue detail pages with reviews
 - ✅ Review submission form with rating sliders
 - ✅ Authentication UI (login/signup)
@@ -275,8 +270,11 @@ This project is open source and available under the [MIT License](LICENSE).
 - [Astro](https://astro.build/) for the amazing framework
 - [Svelte](https://svelte.dev/) for reactive components
 - [Supabase](https://supabase.com/) for the backend infrastructure
-- [Mapbox](https://www.mapbox.com/) for beautiful maps
+- [MapLibre GL JS](https://maplibre.org/) for beautiful, free maps
+- [OpenStreetMap](https://www.openstreetmap.org/) for map data
 - [Vercel](https://vercel.com/) for seamless deployment
+</text>
+
 
 ---
 

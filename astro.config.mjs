@@ -26,7 +26,7 @@ export default defineConfig({
   integrations: [svelte()],
   // vite: {
   //   ssr: {
-  //     noExternal: ["mapbox-gl"],
+  //     noExternal: ["maplibre-gl"],
   //   },
   // },
 });
