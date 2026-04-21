@@ -171,7 +171,7 @@ readhere/
 │   │   └── utils.ts        # Helper functions
 │   └── pages/              # Astro pages (file-based routing)
 │       ├── auth/
-│       │   ├── login.astro
+│       │   ├── signin.astro
 │       │   └── signup.astro
 │       ├── venues/
 │       │   └── [id].astro  # Dynamic venue detail pages
@@ -234,7 +234,7 @@ The project uses Astro's **hybrid rendering** mode:
 - ✅ Interactive map with venue markers (MapLibre GL JS)
 - ✅ Venue detail pages with reviews
 - ✅ Review submission form with rating sliders
-- ✅ Authentication UI (login/signup)
+- ✅ Authentication UI (signin/register)
 - ✅ Responsive design
 - ✅ Mock data for development
 - ✅ TypeScript type safety

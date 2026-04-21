@@ -95,7 +95,7 @@
         {#if mode === "login"}
             Don't have an account? <a href="/auth/signup">Sign up</a>
         {:else}
-            Already have an account? <a href="/auth/login">Sign in</a>
+            Already have an account? <a href="/auth/signin">Sign in</a>
         {/if}
     </p>
 </form>
