@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/svelte": "^8.0.5",
+    "@astrojs/vercel": "^10.0.4",
     "@supabase/supabase-js": "^2.103.2",
     "@vitest/ui": "^4.1.4",
     "astro": "^6.1.7",
