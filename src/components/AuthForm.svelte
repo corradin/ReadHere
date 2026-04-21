@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { signUp, signIn } from "../lib/auth";
+    // import { signUp, signIn } from "../lib/auth";
     import { validateEmail } from "../lib/utils";
 
     interface Props {
-        mode: "login" | "signup";
+        mode: "signin" | "signup";
     }
 
     let { mode }: Props = $props();
@@ -30,7 +30,7 @@
         isSubmitting = true;
 
         try {
-            if (mode === "login") {
+            if (mode === "signin") {
                 await signIn(email, password);
             } else if (mode === "signup") {
                 console.log("Signup attempt:", email);
@@ -50,13 +50,13 @@
         }
     }
 
-    const title = $derived(mode === "login" ? "Sign In" : "Sign Up");
+    const title = $derived(mode === "signin" ? "Sign In" : "Sign Up");
     const submitText = $derived(
-        mode === "login" ? "Sign In" : "Create Account",
+        mode === "signin" ? "Sign In" : "Create Account",
     );
 </script>
 
-<form class="auth-form" onsubmit={handleSubmit}>
+<form class="auth-form" action="/api/auth/{mode}" method="post">
     <h2>{title}</h2>
 
     <div class="form-group">
@@ -64,7 +64,7 @@
         <input
             id="email"
             type="email"
-            bind:value={email}
+            name="email"
             placeholder="you@example.com"
             disabled={isSubmitting}
             required
@@ -76,7 +76,7 @@
         <input
             id="password"
             type="password"
-            bind:value={password}
+            name="password"
             placeholder="••••••••"
             disabled={isSubmitting}
             required
@@ -87,12 +87,12 @@
         <p class="error">{error}</p>
     {/if}
 
-    <button class="submit-button" disabled={isSubmitting}>
+    <button type="submit" class="submit-button" disabled={isSubmitting}>
         {isSubmitting ? "Please wait..." : submitText}
     </button>
 
     <p class="toggle-mode">
-        {#if mode === "login"}
+        {#if mode === "signin"}
             Don't have an account? <a href="/auth/signup">Sign up</a>
         {:else}
             Already have an account? <a href="/auth/signin">Sign in</a>

@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-// import AuthForm from '../../components/AuthForm.svelte';
+import AuthForm from "../../components/AuthForm.svelte";
 
 const { cookies, redirect } = Astro;
 
@@ -15,14 +15,7 @@ if (accessToken && refreshToken) {
 <Layout title="Sign In - ReadHere">
     <main>
         <div class="auth-container">
-            <AuthForm
-                client:load
-                mode="login"
-                onSubmit={async (email, password) => {
-                    console.log("Login attempt:", email);
-                    window.location.href = "/";
-                }}
-            />
+            <AuthForm mode="signin" />
         </div>
     </main>
 </Layout>
