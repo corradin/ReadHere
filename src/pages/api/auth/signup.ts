@@ -10,14 +10,16 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return new Response("Email and password are required", { status: 400 });
   }
 
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  // const { error } = await supabase.auth.signUp({
+  //   email,
+  //   password,
+  // });
 
-  if (error) {
-    return new Response(error.message, { status: 500 });
-  }
+  // if (error) {
+  //   return new Response(error.message, { status: 500 });
+  // }
 
-  return redirect("/signin");
+  // return redirect("/signin");
+
+  return new Response("Sign up has been disabled for now", { status: 503 });
 };

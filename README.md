@@ -234,7 +234,7 @@ The project uses Astro's **hybrid rendering** mode:
 - ✅ Interactive map with venue markers (MapLibre GL JS)
 - ✅ Venue detail pages with reviews
 - ✅ Review submission form with rating sliders
-- ✅ Authentication UI (signin/register)
+- ✅ Authentication UI (signin/signup)
 - ✅ Responsive design
 - ✅ Mock data for development
 - ✅ TypeScript type safety
