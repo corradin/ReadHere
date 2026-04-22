@@ -60,8 +60,8 @@ ReadHere solves a simple problem: finding the perfect spot to read. Whether you'
 
    Then edit `.env` with your credentials:
    ```env
-   PUBLIC_SUPABASE_URL=your_supabase_project_url
-   PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SUPABASE_URL=your_supabase_project_url
+   SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
    **Where to find these:**
@@ -203,8 +203,8 @@ ReadHere is optimized for deployment on Vercel:
 3. **Configure environment variables**
    
    Add the following environment variables in Vercel project settings:
-   - `PUBLIC_SUPABASE_URL`
-   - `PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
 
 4. **Deploy**
    ```bash
@@ -222,10 +222,8 @@ The project uses Astro's **hybrid rendering** mode:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `PUBLIC_SUPABASE_URL` | Yes | Your Supabase project URL |
-| `PUBLIC_SUPABASE_ANON_KEY` | Yes | Your Supabase anonymous key |
-
-> **Note:** All variables are prefixed with `PUBLIC_` because they're used in client-side code. They're safe to expose in the browser but should still be kept private.
+| `SUPABASE_URL` | Yes | Your Supabase project URL |
+| `SUPABASE_ANON_KEY` | Yes | Your Supabase anonymous key |
 
 ## 🎨 Features
 

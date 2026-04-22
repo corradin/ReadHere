@@ -35,10 +35,7 @@
             } else if (mode === "signup") {
                 console.log("Signup attempt:", email);
                 await signUp(email, password);
-                // const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-                // const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-                // console.log('Supabase URL:', supabaseUrl);
-                // console.log('Supabase Anon Key:', supabaseAnonKey);
+
                 console.log("Signup successful");
             }
             // window.location.href = '/';
