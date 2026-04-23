@@ -1,5 +1,5 @@
-import type { User } from '@supabase/supabase-js';
-import { supabase } from './supabase';
+import type { User } from "@supabase/supabase-js";
+import { supabase } from "./supabase";
 
 export async function signUp(email: string, password: string) {
   const { data, error } = await supabase.auth.signUp({
@@ -27,7 +27,9 @@ export async function signOut() {
 }
 
 export async function getCurrentUser(): Promise<User | null> {
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return user;
 }
 

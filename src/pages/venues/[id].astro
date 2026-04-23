@@ -3,6 +3,20 @@ import Layout from "../../layouts/Layout.astro";
 import Map from "../../components/Map.svelte";
 import ReviewForm from "../../components/ReviewForm.svelte";
 import { formatDate } from "../../lib/utils";
+import { getCurrentUser } from "../../lib/auth";
+
+const accessToken = Astro.cookies.get("sb-access-token");
+const refreshToken = Astro.cookies.get("sb-refresh-token");
+
+let currentUser;
+if (accessToken && refreshToken) {
+    try {
+        currentUser = await getCurrentUser();
+    } catch (error) {
+        Astro.cookies.delete("sb-access-token", { path: "/" });
+        Astro.cookies.delete("sb-refresh-token", { path: "/" });
+    }
+}
 
 export function getStaticPaths() {
     return [
@@ -69,7 +83,7 @@ const averageRatings = {
     overall: 4.3,
 };
 
-const isLoggedIn = false;
+const isLoggedIn = currentUser != null;
 ---
 
 <Layout title={`${mockVenue.name} - ReadHere`}>
