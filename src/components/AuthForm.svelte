@@ -1,51 +1,12 @@
 <script lang="ts">
-    // import { signUp, signIn } from "../lib/auth";
-    import { validateEmail } from "../lib/utils";
-
     interface Props {
         mode: "signin" | "signup";
     }
 
     let { mode }: Props = $props();
 
-    let email = $state("");
-    let password = $state("");
     let isSubmitting = $state(false);
     let error = $state("");
-
-    async function handleSubmit(e: SubmitEvent) {
-        e.preventDefault();
-        error = "";
-
-        if (!validateEmail(email)) {
-            error = "Please enter a valid email address";
-            return;
-        }
-
-        if (password.length < 6) {
-            error = "Password must be at least 6 characters";
-            return;
-        }
-
-        isSubmitting = true;
-
-        try {
-            if (mode === "signin") {
-                await signIn(email, password);
-            } else if (mode === "signup") {
-                console.log("Signup attempt:", email);
-                await signUp(email, password);
-
-                console.log("Signup successful");
-            }
-            // window.location.href = '/';
-        } catch (err) {
-            error =
-                err instanceof Error ? err.message : "Authentication failed";
-        } finally {
-            isSubmitting = false;
-        }
-    }
 
     const title = $derived(mode === "signin" ? "Sign In" : "Sign Up");
     const submitText = $derived(
@@ -56,37 +17,43 @@
 <form class="auth-form" action="/api/auth/{mode}" method="post">
     <h2>{title}</h2>
 
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            disabled={isSubmitting}
-            required
-        />
-    </div>
-
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            disabled={isSubmitting}
-            required
-        />
-    </div>
-
-    {#if error}
-        <p class="error">{error}</p>
+    {#if mode === "signup"}
+        <p class="error">Signup has been disabled for now.</p>
     {/if}
 
-    <button type="submit" class="submit-button" disabled={isSubmitting}>
-        {isSubmitting ? "Please wait..." : submitText}
-    </button>
+    {#if mode === "signin"}
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                disabled={isSubmitting}
+                required
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                disabled={isSubmitting}
+                required
+            />
+        </div>
+
+        {#if error}
+            <p class="error">{error}</p>
+        {/if}
+
+        <button type="submit" class="submit-button" disabled={isSubmitting}>
+            {isSubmitting ? "Please wait..." : submitText}
+        </button>
+    {/if}
 
     <p class="toggle-mode">
         {#if mode === "signin"}
