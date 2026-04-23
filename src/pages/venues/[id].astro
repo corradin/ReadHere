@@ -84,6 +84,7 @@ const averageRatings = {
 };
 
 const isLoggedIn = currentUser != null;
+const userId = currentUser?.id || "";
 ---
 
 <Layout title={`${mockVenue.name} - ReadHere`}>
@@ -181,14 +182,14 @@ const isLoggedIn = currentUser != null;
                                 <ReviewForm
                                     client:load
                                     venueId={mockVenue.id}
-                                    userId="current-user-id"
-                                    onSubmit={async (review) => {
+                                    userId={userId}
+                                    <!-- onSubmit={async (review) => {
                                         console.log(
                                             "Review submitted:",
                                             review,
                                         );
                                         alert("Review submitted successfully!");
-                                    }}
+                                    }} -->
                                 />
                             </div>
                         ) : (

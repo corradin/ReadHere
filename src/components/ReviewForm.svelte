@@ -5,10 +5,10 @@
     interface Props {
         venueId: string;
         userId: string;
-        onSubmit: (review: Omit<Review, "id" | "created_at">) => void;
+        // onSubmit: (review: Omit<Review, "id" | "created_at">) => void;
     }
 
-    let { venueId, userId, onSubmit }: Props = $props();
+    let { venueId, userId }: Props = $props();
 
     let quietness = $state(3);
     let comfort = $state(3);
@@ -17,7 +17,7 @@
     let isSubmitting = $state(false);
     let error = $state("");
 
-    async function handleSubmit(e: Event) {
+    async function handleSubmit(e: SubmitEvent) {
         e.preventDefault();
 
         if (text.trim().length < 10) {
@@ -29,14 +29,15 @@
         error = "";
 
         try {
-            await onSubmit({
-                venue_id: venueId,
-                user_id: userId,
-                quietness: clamp(quietness, 1, 5),
-                comfort: clamp(comfort, 1, 5),
-                lighting: clamp(lighting, 1, 5),
-                text: text.trim(),
-            });
+            //TODO: Create API route for submitting reviews and uncomment this
+            // await onSubmit({
+            //     venue_id: venueId,
+            //     user_id: userId,
+            //     quietness: clamp(quietness, 1, 5),
+            //     comfort: clamp(comfort, 1, 5),
+            //     lighting: clamp(lighting, 1, 5),
+            //     text: text.trim(),
+            // });
 
             quietness = 3;
             comfort = 3;
@@ -51,7 +52,7 @@
     }
 </script>
 
-<form class="review-form" on:submit={handleSubmit}>
+<form class="review-form" onsubmit={handleSubmit}>
     <h3>Write a Review</h3>
 
     <div class="rating-group">
