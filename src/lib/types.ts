@@ -1,11 +1,11 @@
-export interface Venue {
+export interface Place {
   id: string;
   name: string;
   address: string;
   latitude: number;
   longitude: number;
   description?: string;
-  category?: string;
+  place_type?: string;
   created_at: string;
 }
 
@@ -23,7 +23,7 @@ export interface Review {
 export interface Bookmark {
   id: string;
   user_id: string;
-  venue_id: string;
+  place_id: string;
   created_at: string;
 }
 
@@ -33,7 +33,7 @@ export interface User {
   created_at: string;
 }
 
-export interface VenueWithReviews extends Venue {
+export interface PlaceWithReviews extends Place {
   reviews?: Review[];
   averageRatings?: {
     quietness: number;
@@ -42,3 +42,7 @@ export interface VenueWithReviews extends Venue {
     overall: number;
   };
 }
+
+// Backwards compatibility alias
+export type Venue = Place;
+export type VenueWithReviews = PlaceWithReviews;

@@ -4,12 +4,12 @@
     import { createReview } from "../lib/api";
 
     interface Props {
-        venueId: string;
+        placeId: string;
         userId: string;
         // onSubmit: (review: Omit<Review, "id" | "created_at">) => void;
     }
 
-    let { venueId, userId }: Props = $props();
+    let { placeId, userId }: Props = $props();
 
     let quietness = $state(3);
     let comfort = $state(3);
@@ -40,7 +40,7 @@
             //     text: text.trim(),
             // });
             await createReview({
-                place_id: venueId,
+                place_id: placeId,
                 user_id: userId,
                 quietness: clamp(quietness, 1, 5),
                 comfort: clamp(comfort, 1, 5),
@@ -64,7 +64,7 @@
 <form class="review-form" action="/api/reviews/create" method="POST">
     <h3>Write a Review</h3>
 
-    <input type="hidden" name="venue_id" value={venueId} />
+    <input type="hidden" name="place_id" value={placeId} />
 
     <div class="rating-group">
         <label for="quietness">

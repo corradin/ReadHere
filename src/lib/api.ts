@@ -1,46 +1,50 @@
-import { supabase } from './supabase';
-import type { Venue, Review, Bookmark, VenueWithReviews } from './types';
+import { supabase } from "./supabase";
+import type { Place, Review, Bookmark, PlaceWithReviews } from "./types";
 
-export async function getVenues(): Promise<Venue[]> {
+export async function getVenues(): Promise<Place[]> {
   const { data, error } = await supabase
-    .from('venues')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .from("places")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) throw error;
   return data || [];
 }
 
-export async function getVenueById(id: string): Promise<VenueWithReviews | null> {
-  const { data: venue, error: venueError } = await supabase
-    .from('venues')
-    .select('*')
-    .eq('id', id)
+export async function getPlaceById(
+  id: string,
+): Promise<PlaceWithReviews | null> {
+  const { data: place, error: placeError } = await supabase
+    .from("places")
+    .select("*")
+    .eq("id", id)
     .single();
 
-  if (venueError) throw venueError;
-  if (!venue) return null;
+  if (placeError) throw placeError;
+  if (!place) return null;
 
   const { data: reviews, error: reviewsError } = await supabase
-    .from('reviews')
-    .select('*')
-    .eq('venue_id', id)
-    .order('created_at', { ascending: false });
+    .from("reviews")
+    .select("*")
+    .eq("place_id", id)
+    .order("created_at", { ascending: false });
 
   if (reviewsError) throw reviewsError;
 
   const averageRatings = calculateAverageRatings(reviews || []);
 
   return {
-    ...venue,
+    ...place,
     reviews: reviews || [],
     averageRatings,
   };
 }
 
-export async function createReview(review: Omit<Review, 'id' | 'created_at'>): Promise<Review> {
+export async function createReview(
+  review: Omit<Review, "id" | "created_at">,
+): Promise<Review> {
   const { data, error } = await supabase
-    .from('reviews')
+    .from("reviews")
     .insert([review])
     .select()
     .single();
@@ -49,20 +53,23 @@ export async function createReview(review: Omit<Review, 'id' | 'created_at'>): P
   return data;
 }
 
-export async function getUserBookmarks(userId: string): Promise<Venue[]> {
+export async function getUserBookmarks(userId: string): Promise<Place[]> {
   const { data, error } = await supabase
-    .from('bookmarks')
-    .select('venue_id, venues(*)')
-    .eq('user_id', userId);
+    .from("bookmarks")
+    .select("place_id, places(*)")
+    .eq("user_id", userId);
 
   if (error) throw error;
-  return data?.map((b: any) => b.venues) || [];
+  return data?.map((b: any) => b.places) || [];
 }
 
-export async function addBookmark(userId: string, venueId: string): Promise<Bookmark> {
+export async function addBookmark(
+  userId: string,
+  placeId: string,
+): Promise<Bookmark> {
   const { data, error } = await supabase
-    .from('bookmarks')
-    .insert([{ user_id: userId, venue_id: venueId }])
+    .from("bookmarks")
+    .insert([{ user_id: userId, place_id: placeId }])
     .select()
     .single();
 
@@ -70,22 +77,28 @@ export async function addBookmark(userId: string, venueId: string): Promise<Book
   return data;
 }
 
-export async function removeBookmark(userId: string, venueId: string): Promise<void> {
+export async function removeBookmark(
+  userId: string,
+  placeId: string,
+): Promise<void> {
   const { error } = await supabase
-    .from('bookmarks')
+    .from("bookmarks")
     .delete()
-    .eq('user_id', userId)
-    .eq('venue_id', venueId);
+    .eq("user_id", userId)
+    .eq("place_id", placeId);
 
   if (error) throw error;
 }
 
-export async function isBookmarked(userId: string, venueId: string): Promise<boolean> {
+export async function isBookmarked(
+  userId: string,
+  placeId: string,
+): Promise<boolean> {
   const { data, error } = await supabase
-    .from('bookmarks')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('venue_id', venueId)
+    .from("bookmarks")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("place_id", placeId)
     .maybeSingle();
 
   if (error) throw error;
@@ -108,7 +121,7 @@ function calculateAverageRatings(reviews: Review[]) {
       comfort: acc.comfort + review.comfort,
       lighting: acc.lighting + review.lighting,
     }),
-    { quietness: 0, comfort: 0, lighting: 0 }
+    { quietness: 0, comfort: 0, lighting: 0 },
   );
 
   const quietness = sum.quietness / reviews.length;

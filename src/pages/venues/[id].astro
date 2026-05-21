@@ -30,7 +30,7 @@ const { id } = Astro.params;
 
 const mockVenues: Record<string, any> = {
     "1": {
-        id: "1",
+        id: "9c6b28a1-748c-44ed-9476-ac53a0091e37",
         name: "Canvas",
         address: "Wibautstraat 150, 1091 GR Amsterdam",
         latitude: 52.354,
@@ -40,7 +40,7 @@ const mockVenues: Record<string, any> = {
         created_at: "2024-01-01T00:00:00Z",
     },
     "2": {
-        id: "2",
+        id: "f88fc4f3-8be0-4db3-847c-8409b9e2b18a",
         name: "Bar Bukowski",
         address: "Oosterpark 10, 1092 AE Amsterdam",
         latitude: 52.3583,
@@ -181,15 +181,8 @@ const userId = currentUser?.id || "";
                             <div class="review-form-container">
                                 <ReviewForm
                                     client:load
-                                    venueId={mockVenue.id}
+                                    placeId={mockVenue.id}
                                     userId={userId}
-                                    <!-- onSubmit={async (review) => {
-                                        console.log(
-                                            "Review submitted:",
-                                            review,
-                                        );
-                                        alert("Review submitted successfully!");
-                                    }} -->
                                 />
                             </div>
                         ) : (

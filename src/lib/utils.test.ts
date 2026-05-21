@@ -16,7 +16,7 @@ describe("calculateAverageRatings", () => {
     const reviews: Review[] = [
       {
         id: "1",
-        place_id: "venue1",
+        place_id: "9c6b28a1-748c-44ed-9476-ac53a0091e37",
         user_id: "user1",
         quietness: 4,
         comfort: 5,
@@ -38,7 +38,7 @@ describe("calculateAverageRatings", () => {
     const reviews: Review[] = [
       {
         id: "1",
-        place_id: "venue1",
+        place_id: "20f364d8-c2ee-40dc-9889-ec3a89910c1d",
         user_id: "user1",
         quietness: 4,
         comfort: 5,
@@ -48,7 +48,7 @@ describe("calculateAverageRatings", () => {
       },
       {
         id: "2",
-        place_id: "venue1",
+        place_id: "f88fc4f3-8be0-4db3-847c-8409b9e2b18a",
         user_id: "user2",
         quietness: 5,
         comfort: 4,
@@ -70,7 +70,7 @@ describe("calculateAverageRatings", () => {
     const reviews: Review[] = [
       {
         id: "1",
-        place_id: "venue1",
+        place_id: "bf052ce9-3781-4800-9da5-d137d704be5c",
         user_id: "user1",
         quietness: 3,
         comfort: 3,
@@ -80,7 +80,7 @@ describe("calculateAverageRatings", () => {
       },
       {
         id: "2",
-        place_id: "venue1",
+        place_id: "0c302606-d736-4793-b204-d8599e9a6c0e",
         user_id: "user2",
         quietness: 4,
         comfort: 4,
@@ -90,7 +90,7 @@ describe("calculateAverageRatings", () => {
       },
       {
         id: "3",
-        place_id: "venue1",
+        place_id: "f831bb77-66e1-4637-b31d-f4547e1a6e84",
         user_id: "user3",
         quietness: 5,
         comfort: 5,
