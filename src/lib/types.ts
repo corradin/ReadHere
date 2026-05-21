@@ -11,12 +11,12 @@ export interface Venue {
 
 export interface Review {
   id: string;
-  venue_id: string;
+  place_id: string;
   user_id: string;
   quietness: number;
   comfort: number;
   lighting: number;
-  text: string;
+  comment: string;
   created_at: string;
 }
 

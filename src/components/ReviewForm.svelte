@@ -1,6 +1,7 @@
 <script lang="ts">
     import { clamp } from "../lib/utils";
     import type { Review } from "../lib/types";
+    import { createReview } from "../lib/api";
 
     interface Props {
         venueId: string;
@@ -38,6 +39,14 @@
             //     lighting: clamp(lighting, 1, 5),
             //     text: text.trim(),
             // });
+            await createReview({
+                place_id: venueId,
+                user_id: userId,
+                quietness: clamp(quietness, 1, 5),
+                comfort: clamp(comfort, 1, 5),
+                lighting: clamp(lighting, 1, 5),
+                comment: text.trim(),
+            });
 
             quietness = 3;
             comfort = 3;
@@ -52,8 +61,10 @@
     }
 </script>
 
-<form class="review-form" onsubmit={handleSubmit}>
+<form class="review-form" action="/api/reviews/create" method="POST">
     <h3>Write a Review</h3>
+
+    <input type="hidden" name="venue_id" value={venueId} />
 
     <div class="rating-group">
         <label for="quietness">
@@ -62,6 +73,7 @@
         </label>
         <input
             id="quietness"
+            name="quietness"
             type="range"
             min="1"
             max="5"
@@ -77,6 +89,7 @@
         </label>
         <input
             id="comfort"
+            name="comfort"
             type="range"
             min="1"
             max="5"
@@ -92,6 +105,7 @@
         </label>
         <input
             id="lighting"
+            name="lighting"
             type="range"
             min="1"
             max="5"
@@ -104,6 +118,7 @@
         <label for="review-text">Your Review</label>
         <textarea
             id="review-text"
+            name="review-text"
             bind:value={text}
             placeholder="Share your experience at this venue..."
             rows="4"
