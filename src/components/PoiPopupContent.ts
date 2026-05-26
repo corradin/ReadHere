@@ -3,10 +3,10 @@ interface PoiPopupContentProps {
     href: string;
 }
 
-export function createPoiPopupContent({
+export const createPoiPopupContent = ({
     title,
     href,
-}: PoiPopupContentProps): HTMLDivElement {
+}: PoiPopupContentProps): HTMLDivElement => {
     const wrapper = document.createElement("div");
     wrapper.className = "poi-popup";
 
@@ -22,4 +22,4 @@ export function createPoiPopupContent({
     wrapper.append(heading, link);
 
     return wrapper;
-}
+};
