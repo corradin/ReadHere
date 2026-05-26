@@ -3,6 +3,7 @@
     import maplibregl from "maplibre-gl";
     import { DEFAULT_MAP_CONFIG } from "../lib/mapbox";
     import type { Venue } from "../lib/types";
+    import { createPoiPopupContent } from "./PoiPopupContent";
 
     interface Props {
         venues?: Venue[];
@@ -52,21 +53,27 @@
 
         map.on("click", (e) => {
             const features = map?.queryRenderedFeatures(e.point);
+            const poiFeature = features?.find(
+                (feature) => feature.sourceLayer === "poi",
+            );
 
-            if (features && features.length > 0) {
-                features.map((feature) => {
-                    if (feature.sourceLayer === "poi") {
-                        console.log(feature);
-                        console.log(e.lngLat.lng);
-                        new maplibregl.Popup()
-                            .setLngLat(e.lngLat)
-                            .setHTML(
-                                `<h3 style="margin: 0 0 8px 0; font-weight: 600;">${feature.properties?.name}</h3>`,
-                            )
-                            .addTo(map);
-                    }
-                });
-            }
+            if (!poiFeature) return;
+
+            const title = poiFeature.properties?.name
+                ? String(poiFeature.properties.name)
+                : "Point of interest";
+            const searchQuery = encodeURIComponent(
+                `${title} ${e.lngLat.lat},${e.lngLat.lng}`,
+            );
+            const popupContent = createPoiPopupContent({
+                title,
+                href: `https://www.openstreetmap.org/search?query=${searchQuery}`,
+            });
+
+            new maplibregl.Popup()
+                .setLngLat(e.lngLat)
+                .setDOMContent(popupContent)
+                .addTo(map);
         });
         updateMarkers();
     });
@@ -143,5 +150,37 @@
     :global(.maplibregl-popup-close-button) {
         font-size: 18px;
         padding: 4px 8px;
+    }
+
+    :global(.poi-popup) {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    :global(.poi-popup h3) {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    :global(.poi-popup a) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        border: 1px solid #111827;
+        border-radius: 9999px;
+        padding: 6px 12px;
+        background: #f9fafb;
+        color: #111827;
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1;
+        text-decoration: none;
+    }
+
+    :global(.poi-popup a:hover) {
+        background: #f3f4f6;
     }
 </style>
