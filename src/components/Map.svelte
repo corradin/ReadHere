@@ -33,17 +33,15 @@
 
         map.addControl(new maplibregl.NavigationControl(), "top-right");
 
-        map.on("moveend", () => {
-            console.log("getLayers", map?.getLayersOrder());
-            poiLayers = map?.getLayersOrder().filter((layer) => {
-                console.log(layer);
-                return layer.startsWith("poi_");
-            });
-            console.log(poiLayers);
+        map.on("idle", () => {
+            console.log("I am idle");
+            poiLayers = map
+                ?.getLayersOrder()
+                .filter((layer) => layer.startsWith("poi_"));
+
             if (poiLayers && map) {
                 map.on("mouseenter", poiLayers, (e) => {
                     map!.getCanvas().style.cursor = "pointer";
-                    console.log(e);
                 });
 
                 map.on("mouseleave", poiLayers, (e) => {
