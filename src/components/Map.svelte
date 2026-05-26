@@ -21,16 +21,70 @@
     let mapContainer: HTMLDivElement;
     let map: maplibregl.Map | null = null;
     let markers: maplibregl.Marker[] = [];
+    let poiLayers: string[] | undefined;
 
     onMount(() => {
         map = new maplibregl.Map({
             container: mapContainer,
-            style: DEFAULT_MAP_CONFIG.style,
+            style: "https://tiles.openfreemap.org/styles/bright",
             center,
             zoom,
         });
 
         map.addControl(new maplibregl.NavigationControl(), "top-right");
+
+        map.on("moveend", () => {
+            console.log("getLayers", map?.getLayersOrder());
+            poiLayers = map?.getLayersOrder().filter((layer) => {
+                console.log(layer);
+                return layer.startsWith("poi_");
+            });
+            console.log(poiLayers);
+            if (poiLayers && map) {
+                map.on("mouseenter", poiLayers, (e) => {
+                    map!.getCanvas().style.cursor = "pointer";
+                    console.log(e);
+                });
+
+                map.on("mouseleave", poiLayers, (e) => {
+                    map!.getCanvas().style.cursor = "";
+                });
+            }
+        });
+
+        map.on("click", (e) => {
+            const features = map?.queryRenderedFeatures(e.point);
+
+            if (features && features.length > 0) {
+                features.map((feature) => {
+                    if (feature.sourceLayer === "poi") {
+                        console.log(feature);
+                    }
+                });
+            }
+            // const coordinates = e.features[0].geometry.coordinates.slice();
+            // const description = e.features[0].properties.description;
+            // // Ensure that if the map is zoomed out such that multiple
+            // // copies of the feature are visible, the popup appears
+            // // over the copy being pointed to.
+            // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            // }
+            // new maplibregl.Popup()
+            //     .setLngLat(coordinates)
+            //     .setHTML(description)
+            //     .addTo(map);
+        });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        // map.on("mouseenter", "places", () => {
+        //     map.getCanvas().style.cursor = "pointer";
+        // });
+
+        // // Change it back to a pointer when it leaves.
+        // map.on("mouseleave", "places", () => {
+        //     map.getCanvas().style.cursor = "";
+        // });
 
         updateMarkers();
     });
