@@ -34,7 +34,6 @@
         map.addControl(new maplibregl.NavigationControl(), "top-right");
 
         map.on("idle", () => {
-            console.log("I am idle");
             poiLayers = map
                 ?.getLayersOrder()
                 .filter((layer) => layer.startsWith("poi_"));
@@ -56,8 +55,6 @@
             if (features && features.length > 0) {
                 features.map((feature) => {
                     if (feature.sourceLayer === "poi") {
-                        console.log(feature);
-                        console.log(e.lngLat.lng);
                         new maplibregl.Popup()
                             .setLngLat(e.lngLat)
                             .setHTML(
@@ -115,7 +112,6 @@
             venues.forEach((venue) => {
                 bounds.extend([venue.longitude, venue.latitude]);
             });
-            console.log(bounds);
             map?.fitBounds(bounds, { padding: 50 });
         }
     }
