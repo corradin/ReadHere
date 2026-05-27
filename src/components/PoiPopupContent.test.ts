@@ -1,21 +1,24 @@
+import { screen } from "@testing-library/svelte";
 import { createPoiPopupContent } from "./PoiPopupContent";
 
 describe("createPoiPopupContent", () => {
     it("renders a title and link button", () => {
+        document.body.innerHTML = "";
         const popupContent = createPoiPopupContent({
             title: "Canvas",
             href: "https://www.openstreetmap.org/search?query=Canvas",
         });
 
-        const heading = popupContent.querySelector("h3");
-        expect(heading?.textContent).toBe("Canvas");
+        document.body.append(popupContent);
 
-        const link = popupContent.querySelector("a");
-        expect(link?.textContent).toBe("View place");
-        expect(link?.getAttribute("href")).toBe(
+        const heading = screen.getByRole("heading", { level: 3, name: "Canvas" });
+        expect(heading.textContent).toBe("Canvas");
+
+        const link = screen.getByRole("link", { name: "View place" });
+        expect(link.getAttribute("href")).toBe(
             "https://www.openstreetmap.org/search?query=Canvas",
         );
-        expect(link?.getAttribute("target")).toBe("_blank");
-        expect(link?.getAttribute("rel")).toBe("noopener noreferrer");
+        expect(link.getAttribute("target")).toBe("_blank");
+        expect(link.getAttribute("rel")).toBe("noopener noreferrer");
     });
 });
