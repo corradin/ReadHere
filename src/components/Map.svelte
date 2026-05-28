@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { onMount, onDestroy } from "svelte";
+    import { onMount, onDestroy, mount } from "svelte";
     import maplibregl from "maplibre-gl";
     import { DEFAULT_MAP_CONFIG } from "../lib/mapbox";
     import type { Venue } from "../lib/types";
-    import { createPoiPopupContent } from "./PoiPopupContent";
+    import PoiPopupContent from "./PoiPopupContent.svelte";
 
     interface Props {
         venues?: Venue[];
@@ -65,14 +65,20 @@
             const searchQuery = encodeURIComponent(
                 `${title} ${e.lngLat.lat},${e.lngLat.lng}`,
             );
-            const popupContent = createPoiPopupContent({
-                title,
-                href: `https://www.openstreetmap.org/search?query=${searchQuery}`,
+
+            const popupContainer = document.createElement("div");
+            mount(PoiPopupContent, {
+                target: popupContainer,
+                props: {
+                    id: "",
+                    address: "",
+                    name: title,
+                },
             });
 
             new maplibregl.Popup()
                 .setLngLat(e.lngLat)
-                .setDOMContent(popupContent)
+                .setDOMContent(popupContainer)
                 .addTo(map);
         });
         updateMarkers();
