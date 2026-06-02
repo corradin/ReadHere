@@ -105,6 +105,19 @@ export async function isBookmarked(
   return !!data;
 }
 
+export async function hasReviewsForPoi(
+  openmaptilesIdName: string,
+): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("id")
+    .eq("openmaptiles_id_name", openmaptilesIdName)
+    .limit(1);
+
+  if (error) throw error;
+  return !!data && data.length > 0;
+}
+
 function calculateAverageRatings(reviews: Review[]) {
   if (reviews.length === 0) {
     return {
