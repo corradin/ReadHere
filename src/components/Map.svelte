@@ -62,11 +62,12 @@
             const title = poiFeature.properties?.name
                 ? String(poiFeature.properties.name)
                 : "Point of interest";
-            const searchQuery = encodeURIComponent(
-                `${title} ${e.lngLat.lat},${e.lngLat.lng}`,
-            );
+
+            // TODO: Define the id as `${poiFeature.id}_${poiFeature.properties?.name}` and use it to check if the venue already exists in our database.
+            console.log("Clicked POI:", poiFeature);
 
             const popupContainer = document.createElement("div");
+
             mount(PoiPopupContent, {
                 target: popupContainer,
                 props: {

@@ -3,6 +3,7 @@ create table reviews (
   id uuid primary key default uuid_generate_v4(),
   place_id uuid not null references places(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
+  openmaptiles_id_name text,
   visit_day smallint,     -- 0 = Monday, 6 = Sunday
   visit_time text,         -- 'morning', 'afternoon', 'evening', 'night'
   quietness smallint not null check (quietness between 1 and 5),
