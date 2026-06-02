@@ -4,6 +4,7 @@
     import { DEFAULT_MAP_CONFIG } from "../lib/mapbox";
     import type { Venue } from "../lib/types";
     import PoiPopupContent from "./PoiPopupContent.svelte";
+    import { hasReviewsForPoi } from "../lib/api";
 
     interface Props {
         venues?: Venue[];
@@ -51,7 +52,7 @@
             }
         });
 
-        map.on("click", (e) => {
+        map.on("click", async (e) => {
             const features = map?.queryRenderedFeatures(e.point);
             const poiFeature = features?.find(
                 (feature) => feature.sourceLayer === "poi",
@@ -63,7 +64,16 @@
                 ? String(poiFeature.properties.name)
                 : "Point of interest";
 
-            // TODO: Define the id as `${poiFeature.id}_${poiFeature.properties?.name}` and use it to check if the venue already exists in our database.
+            // Create the openmaptiles_id_name identifier
+            const openmaptilesIdName =
+                String(poiFeature.id) +
+                "_" +
+                String(poiFeature.properties?.name);
+
+            // Check if reviews exist and determine button text
+            const hasReviews = await hasReviewsForPoi(openmaptilesIdName);
+            const buttonText = hasReviews ? "Show more" : "Write review";
+
             console.log("Clicked POI:", poiFeature);
 
             const popupContainer = document.createElement("div");
@@ -71,9 +81,10 @@
             mount(PoiPopupContent, {
                 target: popupContainer,
                 props: {
-                    id: "",
+                    id: openmaptilesIdName,
                     address: "",
                     name: title,
+                    buttonText,
                 },
             });
 

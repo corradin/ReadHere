@@ -3,15 +3,16 @@
         id: string;
         name: string;
         address: string;
+        buttonText: string;
     }
 
-    let { id, name, address }: Props = $props();
+    let { id, name, address, buttonText }: Props = $props();
 </script>
 
 <div class="popup-content">
     <h3 class="popup-title">{name}</h3>
     <p class="popup-address">{address}</p>
-    <a href={`/venues/${id}`} class="popup-link"> View More </a>
+    <a href={`/venues/${id}`} class="popup-link">{buttonText}</a>
 </div>
 
 <style>

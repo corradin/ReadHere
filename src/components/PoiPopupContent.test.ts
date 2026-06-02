@@ -8,6 +8,7 @@ describe("PoiPopupContent", () => {
         id: "123",
         name: "Canvas Coffee Shop",
         address: "123 Main St, Seattle, WA",
+        buttonText: "Show more",
       },
     });
 
@@ -23,7 +24,7 @@ describe("PoiPopupContent", () => {
     expect(address).toBeInTheDocument();
 
     // Check that the link to venue details exists and has correct href
-    const link = screen.getByRole("link", { name: /View More/i });
+    const link = screen.getByRole("link", { name: /Show more/i });
     expect(link).toBeInTheDocument();
     expect(link.getAttribute("href")).toBe("/venues/123");
   });
@@ -34,6 +35,7 @@ describe("PoiPopupContent", () => {
         id: "456",
         name: "Test Place",
         address: "Unknown Location",
+        buttonText: "Write review",
       },
     });
 
